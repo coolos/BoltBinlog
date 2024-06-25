@@ -14,8 +14,8 @@ type Binlog struct {
 	file *os.File
 	time time.Time //binlog time
 	op   []string  // "put" or "delete"
-	key  []string  // key
-	val  []string  // value
+	key  []byte    // key
+	val  []byte    // value
 	LSN  uint64
 	buf  *bufio.Writer
 }
@@ -57,6 +57,8 @@ func (b *Binlog) Open(path string) (*os.File, *bufio.Writer, error) {
 }
 
 func (b *Binlog) Write(p []byte) (n int, err error) {
+	b.LSN++
+
 	// 使用 *bufio.Writer 写入数据
 	n, err = b.buf.Write(p)
 	if err != nil {

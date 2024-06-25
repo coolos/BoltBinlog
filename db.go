@@ -127,6 +127,8 @@ type DB struct {
 	// Read only mode.
 	// When true, Update() and Begin(true) return ErrDatabaseReadOnly immediately.
 	readOnly bool
+
+	binlog *Binlog
 }
 
 // Path returns the path to currently open database file.
@@ -237,6 +239,8 @@ func Open(path string, mode os.FileMode, options *Options) (*DB, error) {
 	db.freelist.read(db.page(db.meta().freelist))
 
 	// Mark the database as opened and return.
+
+	db.binlog.Open("./xxx-bin.000")
 	return db, nil
 }
 
