@@ -224,6 +224,17 @@ func (tx *Tx) Commit() error {
 	}
 	tx.stats.WriteTime += time.Since(startTime)
 
+	// write to binlog file
+	timeitem, _ := tx.db.binlog.time.MarshalBinary()
+	var binlogitem []byte
+	binlogitem = append(append(append(binlogitem, tx.db.binlog.key...), tx.db.binlog.val...), timeitem...)
+
+	_, err = tx.db.binlog.Write(binlogitem)
+	if err != nil {
+		tx.rollback()
+		return err
+	}
+
 	// Finalize the transaction.
 	tx.close()
 

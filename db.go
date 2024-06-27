@@ -240,7 +240,7 @@ func Open(path string, mode os.FileMode, options *Options) (*DB, error) {
 
 	// Mark the database as opened and return.
 
-	db.binlog.Open("./xxx-bin.000")
+	db.binlog.Open()
 	return db, nil
 }
 

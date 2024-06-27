@@ -149,10 +149,10 @@ func (n *node) put(oldKey, newKey, value []byte, pgid pgid, flags uint32) {
 	//	buf  *bufio.Writer
 	//}
 
-	var tx = n.bucket.tx
-	tx.db.binlog.key = inode.key
-	tx.db.binlog.val = inode.value
-	tx.db.binlog.time = time.Now()
+	db := n.bucket.tx.db
+	db.binlog.key = inode.key
+	db.binlog.val = inode.value
+	db.binlog.time = time.Now()
 
 	_assert(len(inode.key) > 0, "put: zero-length inode key")
 }
