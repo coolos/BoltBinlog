@@ -61,7 +61,7 @@ func UnlockFile(file *os.File) error {
 //	return file, b.buf, nil
 //}
 
-func (b *Binlog) Open() (*os.File, *bufio.Writer, error) {
+func (b *Binlog) open() (*os.File, *bufio.Writer, error) {
 	dir := "." // 假设我们的binlog文件都在当前目录
 	baseFileName := "boltbin"
 	maxSize := int64(1024 * 1024) // 假设我们的最大尺寸限制是1MB
