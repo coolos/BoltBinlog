@@ -238,9 +238,6 @@ func Open(path string, mode os.FileMode, options *Options) (*DB, error) {
 	db.freelist = newFreelist()
 	db.freelist.read(db.page(db.meta().freelist))
 
-	//打开binlog
-	//db.binlog.open()
-
 	// Mark the database as opened and return.
 	return db, nil
 }
