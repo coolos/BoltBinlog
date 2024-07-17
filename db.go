@@ -238,13 +238,11 @@ func Open(path string, mode os.FileMode, options *Options) (*DB, error) {
 	db.freelist = newFreelist()
 	db.freelist.read(db.page(db.meta().freelist))
 
+	// 初始化binlog
+	db.binlog.open()
+
 	// Mark the database as opened and return.
 	return db, nil
-}
-
-func (db *DB) Openbinlog() {
-
-	db.binlog.open()
 }
 
 // mmap opens the underlying memory-mapped file and initializes the meta references.
