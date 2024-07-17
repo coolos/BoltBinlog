@@ -239,6 +239,11 @@ func Open(path string, mode os.FileMode, options *Options) (*DB, error) {
 	db.freelist.read(db.page(db.meta().freelist))
 
 	// 初始化binlog
+	binlog := &Binlog{}
+	//var db = &DB{opened: true}
+
+	db.binlog = binlog
+
 	db.binlog.open()
 
 	// Mark the database as opened and return.
