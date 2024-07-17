@@ -245,11 +245,13 @@ func Open(path string, mode os.FileMode, options *Options) (*DB, error) {
 	//var bf *os.File = nil
 	//var bfbuff *bufio.Writer = nil
 
-	_, _, err = db.binlog.open()
+	bf, bfbuff, err := db.binlog.open()
 	if err != nil {
 		return nil, err
 	}
-	db.binlog = binlog
+	db.binlog.file = bf
+	db.binlog.buf = bfbuff
+	//db.binlog = binlog
 	// Mark the database as opened and return.
 	return db, nil
 }
