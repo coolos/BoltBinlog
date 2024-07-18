@@ -69,7 +69,7 @@ func (b *Binlog) open() (*os.File, *bufio.Writer, error) {
 	// 读取目录
 	files, err := ioutil.ReadDir(dir)
 	if err != nil {
-		log.Fatalf("Failed to read dir: %s", err)
+		return nil, nil, fmt.Errorf("Failed to stat file: %s", err)
 	}
 
 	// 找到最大的序列号的binlog文件
@@ -124,7 +124,12 @@ func (b *Binlog) open() (*os.File, *bufio.Writer, error) {
 		return nil, nil, err
 	}
 
-	defer UnlockFile(f)
+	// 解锁文件
+	defer func() {
+		if err := UnlockFile(f); err != nil {
+			log.Printf("Failed to unlock file: %s", err)
+		}
+	}()
 
 	return f, b.buf, nil
 
