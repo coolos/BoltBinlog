@@ -131,6 +131,8 @@ func (b *Binlog) open() (*os.File, *bufio.Writer, error) {
 		}
 	}()
 
+	b.buf = bufio.NewWriter(f)
+
 	return f, b.buf, nil
 
 	//fmt.Printf("File %s is ready for use\n", fileName)
